@@ -1,0 +1,113 @@
+@startuml 07_MPD
+title Modèle physique de données
+
+object commande{
+    [PK] id: INTEGER NOT NULL
+    ----
+    [FK] client_id: INTEGER NOT NULL
+    [FK] boutique_id: INTEGER NOT NULL
+    [FK] status_id: INTEGER NOT NULL
+    [FK] paiement_type_id: INTEGER NOT NULL
+    ----
+    date: DATETIME
+    paiement: BOOLEAN
+}
+
+object paiement_type{
+    [PK] id: INTEGER NOT NULL
+    designation: VARCHAR
+}
+
+object status{
+    [PK] id: INTEGER NOT NULL
+    ----
+    designation: VARCHAR
+}
+
+object commande_composition{
+    [PFK] commande_id: INTEGER  NOT NULL
+    [PFK] recette_id: INTEGER  NOT NULL
+    ----
+    [FK] status_id: INTEGER NOT NULL
+    ----
+    quantite: INTEGER
+}
+
+object recette{
+    [PK] id: INTEGER NOT NULL
+    ----
+    nom: VARCHAR
+    designation_commerciale: VARCHAR
+    designation_technique: VARCHAR
+    prix: FLOAT(4,2)
+}
+
+object recette_composition{
+    [PFK] recette_id: INTEGER NOT NULL
+    [PFK] ingredient_id: INTEGER NOT NULL
+    ----
+    quantite: FLOAT(6,2)
+}
+
+object ingredient{
+    [PK] id: INTEGER NOT NULL
+    ----
+    nom: VARCHAR
+    unite: VARCHAR
+}
+
+object stock{
+    [PFK] ingredient_id: INTEGER NOT NULL
+    [PFK] boutique_id: INTEGER NOT NULL
+    ----
+    quantite: FLOAT(12,2)
+    
+}
+
+object authentification{
+    [PK] id: INTEGER NOT NULL
+    [FK] boutique_id: INTEGER
+    [FK] role_id: INTEGER NOT NULL
+    ----
+    [IDX] login: VARCHAR() UNIQUE NOT NULL
+    [IDX] telephone: VARCHAR(12)
+    ----
+    password: CHAR(64) NOT NULL (SHA-256)
+    nom: VARCHAR(256)
+    prenom: VARCHAR(256)
+    email: VARCHAR(256)
+}
+
+object role{
+    [PK] id: Integer NOT NULL
+    designation: VARCHAR(256)
+}
+
+object boutique{
+    [PK] id: Integer NOT NULL
+    ----
+    nom: String
+    adresse: String
+    horaires: String
+}
+
+commande "0..*" *- "0..*" recette
+commande_composition . (commande, recette)
+
+recette "0..*" *-- "0..*" ingredient
+(recette, ingredient) . recette_composition
+
+authentification "0..1" - "0..*" commande
+authentification "0..*" - "0..1" boutique
+commande "0..*" -- "1" boutique
+
+boutique "1" - "1" ingredient
+(ingredient, boutique) . stock
+
+status "1" -- "*" commande
+
+authentification "0..*" -- "1" role
+
+paiement_type "1" -- "*" commande
+
+@enduml
