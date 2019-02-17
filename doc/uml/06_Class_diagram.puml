@@ -1,0 +1,105 @@
+@startuml 06_Class_diagram
+title Diagramme de classe
+
+class Commande{
+    creer()
+    payer()
+    lister()
+    modifier_status()
+    consulter_status()
+    --
+    numero: Integer
+    date: Date
+    statut: String
+    paiement: Boolean
+    client: Integer
+    boutique: Integer
+}
+
+class CommandeComposition{
+    modifier_composition()
+    modifier_status()
+    consulter_status()
+    --
+    numero: Integer
+    recette: Integer
+    quantite: Integer
+    statut: String
+}
+
+class Recette{
+    creer()
+    lister()
+    modifier()
+    supprimer()
+    --
+    designation: String
+    prix: Float
+}
+
+class RecetteComposition{
+    ajouter_element()
+    retirer_element()
+    consulter()
+    --
+    ingredient: Integer
+    quantite: Float
+}
+
+class Ingredient{
+    creer()
+    lister()
+    modifier()
+    supprimer()
+    --
+    designation: String
+    prix: Float
+    unite: String
+}
+
+class Stock{
+    consulter()
+    mettre_a_jour()
+    --
+    ingredient: Integer
+    quantite: Float
+    boutique: Integer
+}
+
+class Authentification{
+    identifier()
+    creer_utilisateur()
+    modifier_utilisateur()
+    --
+    login: String
+    nom: String
+    prenom: String
+    email: String
+    telephone: String
+    role: String
+    boutique: Integer
+}
+
+class Boutique{
+    creer_boutique()
+    modifier_boutique()
+    --
+    designation: String
+    adresse: String
+}
+
+Commande *- Recette
+CommandeComposition . (Commande, Recette)
+
+Recette *-- Ingredient
+(Recette, Ingredient) . RecetteComposition
+
+Authentification - Commande
+Authentification - Boutique
+Commande -- Boutique
+
+Boutique - Ingredient
+(Ingredient, Boutique) . Stock
+
+
+@enduml
