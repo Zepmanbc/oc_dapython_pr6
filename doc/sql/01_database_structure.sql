@@ -29,7 +29,7 @@ CREATE TABLE commande (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     client_id INT UNSIGNED NOT NULL,
     boutique_id INT UNSIGNED NOT NULL,
-    status_id INT UNSIGNED NOT NULL,
+    status_id INT UNSIGNED NOT NULL DEFAULT '1',
     paiement_type_id INT UNSIGNED NOT NULL,
     date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     paiement BOOLEAN DEFAULT FALSE,
@@ -41,7 +41,7 @@ CREATE TABLE commande_composition (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     commande_id INT UNSIGNED NOT NULL,
     recette_id INT UNSIGNED NOT NULL,
-    status_id INT UNSIGNED NOT NULL,
+    status_id INT UNSIGNED NOT NULL DEFAULT '1',
     PRIMARY KEY (id)
 );
 
