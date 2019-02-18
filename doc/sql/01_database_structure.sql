@@ -93,6 +93,10 @@ CREATE TABLE stock (
   PRIMARY KEY (ingredient_id, boutique_id)
 );
 
+--
+-- CONTRAINTES;
+--
+
 ALTER TABLE authentification 
 ADD CONSTRAINT fk_authentification_boutique_id FOREIGN KEY (boutique_id) REFERENCES boutique(id) ON DELETE SET NULL;
 
@@ -131,3 +135,27 @@ ADD CONSTRAINT fk_recette_composition_recette_id FOREIGN KEY (recette_id) REFERE
 
 ALTER TABLE recette_composition 
 ADD CONSTRAINT fk_recette_composition_ingredient_id FOREIGN KEY (ingredient_id) REFERENCES ingredient(id) ON DELETE CASCADE;
+
+--
+-- TRIGGERS;
+--
+
+CREATE TRIGGER tr_boutique_after_insert AFTER INSERT ON boutique FOR EACH ROW 
+INSERT INTO stock (ingredient_id, boutique_id, quantite) 
+    SELECT ingredient.id as ingredient_id, 
+    new.id as boutique_id,
+    0 as quantity
+FROM ingredient;
+
+CREATE TRIGGER tr_boutique_after_delete AFTER DELETE ON boutique FOR EACH ROW 
+DELETE FROM stock WHERE boutique_id = old.id;
+
+CREATE TRIGGER tr_ingredient_after_insert AFTER INSERT ON ingredient FOR EACH ROW 
+INSERT INTO stock (ingredient_id, boutique_id, quantite) 
+    SELECT new.id as ingredient_id, 
+    boutique.id as boutique_id,
+    0 as quantity
+FROM boutique;
+
+CREATE TRIGGER tr_ingredient_after_delete AFTER DELETE ON ingredient FOR EACH ROW 
+DELETE FROM stock WHERE ingredient_id = old.id;

@@ -1,7 +1,7 @@
 USE oc_dapython_pr6;
 
 --
---  BASIC FUNCTIONALITIES
+--  BASIC FUNCTIONALITIES;
 --
 
 INSERT INTO `role` (`id`, `designation`) VALUES
@@ -26,17 +26,17 @@ INSERT INTO `paiement_type` (`id`, `designation`) VALUES
 (4, 'en ligne');
 
 --
---  STORES
+--  STORES;
 --
 
-INSERT INTO `boutique` (`id`, `nom`, `adresse`, `horaires`) VALUES
-(1, 'Boutique du nord', '12 rue de la frite, 59000 Lille', '12h-14h\r\n18h-23h\r\n7j/7'),
-(2, 'Boutique du sud', '3 rue de la cigale, 13000 Marseille', '12h-15h\r\n19h-22h\r\n7j/7'),
-(3, 'Boutique de l''est', '44 rue de la choucroute, 67000 Strasbourg', '11h-13h\r\n18h-22h\r\n7j/7'),
-(4, 'Boutique de l''ouest', '78 rue de la mouette, 29200 Brest', '12h-13h\r\n18h-23h\r\n7j/7');
+INSERT INTO `boutique` (`nom`, `adresse`, `horaires`) VALUES
+('Boutique du nord', '12 rue de la frite, 59000 Lille', '12h-14h\r\n18h-23h\r\n7j/7'),
+('Boutique du sud', '3 rue de la cigale, 13000 Marseille', '12h-15h\r\n19h-22h\r\n7j/7'),
+('Boutique de l''est', '44 rue de la choucroute, 67000 Strasbourg', '11h-13h\r\n18h-22h\r\n7j/7'),
+('Boutique de l''ouest', '78 rue de la mouette, 29200 Brest', '12h-13h\r\n18h-23h\r\n7j/7');
 
 --
---  RECIPES AND ITEMS
+--  RECIPES AND ITEMS;
 --
 
 INSERT INTO `recette` (`id`, `nom`, `designation_commerciale`, `designation_technique`, `prix`) VALUES
@@ -51,16 +51,16 @@ INSERT INTO `ingredient` (`id`, `nom`, `unite`) VALUES
 (4, 'Champignon de Paris', 'g'),
 (5, 'Oignon', 'g'),
 (6, 'Jambon', 'g'),
-(7, 'lardon', 'g'),
-(8, 'cheddar', 'g'),
-(9, 'fromage de chèvre', 'g'),
-(10, 'reblochon', 'g'),
-(11, 'créme fraiche', 'cl'),
-(12, 'tomate fraiche', 'g'),
-(13, 'roquette', 'g'),
-(14, 'tomate mariné', 'g'),
-(15, 'saumon fumé', 'g'),
-(16, 'oeuf', 'unité');
+(7, 'Lardon', 'g'),
+(8, 'Cheddar', 'g'),
+(9, 'Fromage de chèvre', 'g'),
+(10, 'Reblochon', 'g'),
+(11, 'Créme fraiche', 'cl'),
+(12, 'Tomate fraiche', 'g'),
+(13, 'Roquette', 'g'),
+(14, 'Tomate mariné', 'g'),
+(15, 'Saumon fumé', 'g'),
+(16, 'Oeuf', 'unité');
 
 INSERT INTO `recette_composition` (`recette_id`, `ingredient_id`, `quantite`) VALUES
 (1, 1, 1),
@@ -84,25 +84,25 @@ INSERT INTO `recette_composition` (`recette_id`, `ingredient_id`, `quantite`) VA
 (3, 16, 1);
 
 --
---  USERS SAMPLE
+--  USERS SAMPLE;
 --
 
-INSERT INTO `authentification` (`id`, `boutique_id`, `role_id`, `login`, `telephone`, `password`, `nom`, `prenom`, `email`) VALUES
-(1, NULL, 1, 'directeur', '', 'directeur_password', '', '', ''),
-(2, 1, 2, 'Piz_nord', '', '', '', '', ''),
-(3, 1, 3, 'stock_nord', '', '', '', '', ''),
-(4, 1, 4, 'Commande_nord', '', '', '', '', ''),
-(5, 2, 2, 'piz_sud', '', '', '', '', ''),
-(6, 2, 3, 'stock_sud', '', '', '', '', ''),
-(7, 2, 3, 'cmd_sud', '', '', '', '', ''),
-(8, 3, 2, 'piz_est', '', '', '', '', ''),
-(9, 3, 3, 'stock_est', '', '', '', '', ''),
-(10, 3, 3, 'cmd_est', '', '', '', '', ''),
-(11, 4, 2, 'piz_ouest', '', '', '', '', ''),
-(12, 4, 3, 'stock_ouest', '', '', '', '', ''),
-(13, 4, 3, 'cmd_ouest', '', '', '', '', ''),
-(14, 1, 5, 'client1_nord', '0320123456', 'biloute', 'Jean', 'Du Nord', 'jean.dunord@nordnet.com'),
-(15, 2, 5, 'client_sud', '0494123456', 'cigale', 'Jean', 'Du Sud', 'jean.dusud@figalou.net'),
-(16, 3, 5, 'client_est', '0312345678', 'flamenkuche', 'Jean', 'De Lest', 'jean.delest@saucisse.com'),
-(17, 4, 5, 'client_ouest', '0212345678', 'bateau', 'Jean', 'De Louest', 'jean.delouest@mouette.net');
+-- INSERT INTO `authentification` (`id`, `boutique_id`, `role_id`, `login`, `telephone`, `password`, `nom`, `prenom`, `email`) VALUES
+-- (1, NULL, 1, 'directeur', '', 'directeur_password', '', '', ''),
+-- (2, 1, 2, 'Piz_nord', '', '', '', '', ''),
+-- (3, 1, 3, 'stock_nord', '', '', '', '', ''),
+-- (4, 1, 4, 'Commande_nord', '', '', '', '', ''),
+-- (5, 2, 2, 'piz_sud', '', '', '', '', ''),
+-- (6, 2, 3, 'stock_sud', '', '', '', '', ''),
+-- (7, 2, 3, 'cmd_sud', '', '', '', '', ''),
+-- (8, 3, 2, 'piz_est', '', '', '', '', ''),
+-- (9, 3, 3, 'stock_est', '', '', '', '', ''),
+-- (10, 3, 3, 'cmd_est', '', '', '', '', ''),
+-- (11, 4, 2, 'piz_ouest', '', '', '', '', ''),
+-- (12, 4, 3, 'stock_ouest', '', '', '', '', ''),
+-- (13, 4, 3, 'cmd_ouest', '', '', '', '', ''),
+-- (14, 1, 5, 'client1_nord', '0320123456', 'biloute', 'Jean', 'Du Nord', 'jean.dunord@nordnet.com'),
+-- (15, 2, 5, 'client_sud', '0494123456', 'cigale', 'Jean', 'Du Sud', 'jean.dusud@figalou.net'),
+-- (16, 3, 5, 'client_est', '0312345678', 'flamenkuche', 'Jean', 'De Lest', 'jean.delest@saucisse.com'),
+-- (17, 4, 5, 'client_ouest', '0212345678', 'bateau', 'Jean', 'De Louest', 'jean.delouest@mouette.net');
 
