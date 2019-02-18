@@ -49,3 +49,18 @@ ORDER BY status.id;
 -- JOIN ingredient ON ingredient.id = recette_composition.ingredient_id
 -- JOIN recette ON recette.id = recette_composition.recette_id
 -- WHERE recette.id = 1;
+
+
+--
+-- PROCEDURES
+--
+
+DELIMITER |
+CREATE PROCEDURE pr_voir_recette (IN var_recette_id INT)
+BEGIN
+    SELECT CONCAT(quantite, " ", unite, " de ", nom) AS "Liste des ingrédients de la recette" 
+    FROM recette_composition 
+    JOIN ingredient ON ingredient.id = recette_composition.ingredient_id 
+    WHERE recette_id = var_recette_id;
+END|
+DELIMITER ;
