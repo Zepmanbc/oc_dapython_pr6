@@ -140,22 +140,22 @@ ADD CONSTRAINT fk_recette_composition_ingredient_id FOREIGN KEY (ingredient_id) 
 -- TRIGGERS;
 --
 
-CREATE TRIGGER tr_boutique_after_insert AFTER INSERT ON boutique FOR EACH ROW 
+CREATE TRIGGER after_insert_boutique AFTER INSERT ON boutique FOR EACH ROW 
 INSERT INTO stock (ingredient_id, boutique_id, quantite) 
     SELECT ingredient.id as ingredient_id, 
     new.id as boutique_id,
     0 as quantity
 FROM ingredient;
 
-CREATE TRIGGER tr_boutique_after_delete AFTER DELETE ON boutique FOR EACH ROW 
+CREATE TRIGGER after_delete_boutique AFTER DELETE ON boutique FOR EACH ROW 
 DELETE FROM stock WHERE boutique_id = old.id;
 
-CREATE TRIGGER tr_ingredient_after_insert AFTER INSERT ON ingredient FOR EACH ROW 
+CREATE TRIGGER after_insert_ingredient AFTER INSERT ON ingredient FOR EACH ROW 
 INSERT INTO stock (ingredient_id, boutique_id, quantite) 
     SELECT new.id as ingredient_id, 
     boutique.id as boutique_id,
     0 as quantity
 FROM boutique;
 
-CREATE TRIGGER tr_ingredient_after_delete AFTER DELETE ON ingredient FOR EACH ROW 
+CREATE TRIGGER after_delete_ingredient AFTER DELETE ON ingredient FOR EACH ROW 
 DELETE FROM stock WHERE ingredient_id = old.id;

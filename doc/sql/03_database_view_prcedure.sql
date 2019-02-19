@@ -1,3 +1,5 @@
+USE oc_dapython_pr6;
+
 CREATE VIEW v_stock_boutique_nord AS
 SELECT nom as Ingrédient, CONCAT(quantite, " ", unite) AS Quantité
 FROM stock
@@ -26,7 +28,7 @@ JOIN ingredient ON stock.ingredient_id = ingredient.id
 WHERE boutique_id = 4
 ORDER BY nom;
 
-CREATE VIEW v_commandes_boutique_ouest AS
+CREATE VIEW v_commandes_boutique_nord AS
 SELECT 
 CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
 status.designation AS Status,
