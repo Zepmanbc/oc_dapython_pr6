@@ -231,5 +231,16 @@ END|
 DELIMITER ;
 
 
+-- modification du statut de la commande en fonction de l'avancé de la préparation des pizzas
+if all 1 THEN status = 1
+if count(distinct) > 1 THEN status = 2
+if au moins une entre = 2 THEN status = 2
+if all 3 THEN status = 3
+
+SELECT DISTINCT status_id 
+FROM commande_composition
+WHERE commande_id = 3 
+
+
 
 
