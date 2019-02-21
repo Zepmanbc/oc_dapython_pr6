@@ -5,26 +5,21 @@ class Commande{
     creer()
     payer()
     lister()
-    modifier_status()
-    consulter_status()
+    modifier_status_commande()
+    consulter_status_commande()
+    modifier_composition()
+    modifier_status_element()
+    consulter_status_element()
     --
     numero: Integer
     date: Date
-    statut: String
+    statut_commande: String
+    statut_element: String
     paiement: Boolean
     client: Integer
     boutique: Integer
-}
-
-class CommandeComposition{
-    modifier_composition()
-    modifier_status()
-    consulter_status()
-    --
-    numero: Integer
     recette: Integer
     quantite: Integer
-    statut: String
 }
 
 class Recette{
@@ -32,16 +27,12 @@ class Recette{
     lister()
     modifier()
     supprimer()
-    --
-    designation: String
-    prix: Float
-}
-
-class RecetteComposition{
     ajouter_element()
     retirer_element()
     consulter()
     --
+    designation: String
+    prix: Float
     ingredient: Integer
     quantite: Float
 }
@@ -51,19 +42,14 @@ class Ingredient{
     lister()
     modifier()
     supprimer()
+    consulter_stock()
+    mettre_a_jour_stock()
     --
     designation: String
-    prix: Float
-    unite: String
-}
-
-class Stock{
-    consulter()
-    mettre_a_jour()
-    --
-    ingredient: Integer
     quantite: Float
     boutique: Integer
+    prix: Float
+    unite: String
 }
 
 class Authentification{
@@ -89,17 +75,14 @@ class Boutique{
 }
 
 Commande *- Recette
-CommandeComposition . (Commande, Recette)
 
 Recette *-- Ingredient
-(Recette, Ingredient) . RecetteComposition
 
 Authentification - Commande
 Authentification - Boutique
 Commande -- Boutique
 
 Boutique - Ingredient
-(Ingredient, Boutique) . Stock
 
 
 @enduml
