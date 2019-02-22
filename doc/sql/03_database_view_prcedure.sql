@@ -31,15 +31,15 @@ ORDER BY nom;
 CREATE VIEW v_commandes_boutique_nord AS
 SELECT 
 CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
-status.designation AS Status,
+status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
 IF(commande.paiement, "OK", "...") AS Paiement
 FROM commande 
 JOIN authentification ON authentification.id = commande.client_id
-JOIN status ON status.id = commande.status_id
+JOIN status_commande ON status_commande.id = commande.status_id
 JOIN paiement_type ON paiement_type.id = paiement_type_id
 WHERE commande.boutique_id = 1
-ORDER BY status.id;
+ORDER BY status_commande.id;
 
 
 -- SELECT CONCAT("Recette : ",recette.nom) AS "Liste des ingrédients de la recette"

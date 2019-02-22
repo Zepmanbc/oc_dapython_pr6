@@ -18,7 +18,13 @@ object paiement_type{
     designation: VARCHAR
 }
 
-object status{
+object status_commande{
+    [PK] id: INTEGER NOT NULL
+    ----
+    designation: VARCHAR
+}
+
+object status_composition{
     [PK] id: INTEGER NOT NULL
     ----
     designation: VARCHAR
@@ -103,10 +109,8 @@ commande "0..*" -- "1" boutique
 boutique "1" - "1" ingredient
 (ingredient, boutique) . stock
 
-status "1" -- "*" commande
-
-status "1" -- "*" commande_composition
-' commande_composition "*" - "1" status
+status_commande "1" -- "*" commande
+commande_composition "*" - "1" status_composition
 
 authentification "0..*" -- "1" role
 

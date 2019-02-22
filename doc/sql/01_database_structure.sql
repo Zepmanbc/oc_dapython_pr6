@@ -80,11 +80,18 @@ CREATE TABLE role (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE status (
+CREATE TABLE status_commande (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     designation VARCHAR(20) NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE status_composition (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    designation VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 
 CREATE TABLE stock (
   ingredient_id INT UNSIGNED NOT NULL,
@@ -110,7 +117,7 @@ ALTER TABLE commande
 ADD CONSTRAINT fk_commande_boutique_id FOREIGN KEY (boutique_id) REFERENCES boutique(id) ON DELETE RESTRICT;
 
 ALTER TABLE commande 
-ADD CONSTRAINT fk_commande_status_id FOREIGN KEY (status_id) REFERENCES status(id) ON DELETE RESTRICT;
+ADD CONSTRAINT fk_commande_status_commande_id FOREIGN KEY (status_id) REFERENCES status_commande(id) ON DELETE RESTRICT;
 
 ALTER TABLE commande 
 ADD CONSTRAINT fk_commande_paiement_type_id FOREIGN KEY (paiement_type_id) REFERENCES paiement_type(id) ON DELETE RESTRICT;
@@ -122,7 +129,7 @@ ALTER TABLE commande_composition
 ADD CONSTRAINT fk_commande_composition_recette_id FOREIGN KEY (recette_id) REFERENCES recette(id) ON DELETE RESTRICT;
 
 ALTER TABLE commande_composition 
-ADD CONSTRAINT fk_commande_composition_status_id FOREIGN KEY (status_id) REFERENCES status(id) ON DELETE RESTRICT;
+ADD CONSTRAINT fk_commande_composition_status_composition_id FOREIGN KEY (status_id) REFERENCES status_composition(id) ON DELETE RESTRICT;
 
 ALTER TABLE stock 
 ADD CONSTRAINT fk_stock_ingredient_id FOREIGN KEY (ingredient_id) REFERENCES ingredient(id) ON DELETE CASCADE;

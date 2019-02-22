@@ -11,13 +11,18 @@ INSERT INTO `role` (`id`, `designation`) VALUES
 (4, 'gestionnaire de commande'),
 (5, 'client');
 
-INSERT INTO `status` (`id`, `designation`) VALUES
+INSERT INTO `status_commande` (`id`, `designation`) VALUES
 (1, 'validé'),
 (2, 'en préparation'),
 (3, 'prêt'),
 (4, 'en livraison'),
 (5, 'livré'),
 (6, 'terminé');
+
+INSERT INTO `status_composition` (`id`, `designation`) VALUES
+(1, 'validé'),
+(2, 'en préparation'),
+(3, 'prêt');
 
 INSERT INTO `paiement_type` (`id`, `designation`) VALUES
 (1, 'liquide'),
