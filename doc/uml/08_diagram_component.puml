@@ -1,0 +1,28 @@
+@startuml 08_diagram_component
+title Diagramme de composants
+
+node Django {
+    [Authentification]
+    [Commande]
+    [Boutique]
+    [Recette]
+}
+database Postgres {
+    [OC Pizza DB]
+}
+
+node Banque {
+    [API de paiement]
+}
+
+[Commande] -- [API de paiement]
+
+[OC Pizza DB] -- Django
+
+[Boutique] - [Recette]
+[Authentification] - [Commande]
+[Boutique] -- [Authentification]
+[Recette] -- [Commande]
+[Boutique] -- [Commande]
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml 09_diagram_deployment
+title Diagramme de déploiement
+
+
+node "appareil utilisateur"{
+    [navigateur web]
+}
+
+
+
+cloud {
+    rectangle AWS{
+        node gunicorn {
+            ["App Django"]
+        }
+        node Nginx{
+            ["visual data"]
+        }
+    }
+    database "Postgres"{
+        ["OC Pizza Database"]
+}
+}
+cloud {
+    [Banque]
+}
+
+[navigateur web] -> ["App Django"]
+
+[navigateur web] --> [Banque]
+
+["App Django"] -- [Banque]
+
+["App Django"] -- ["OC Pizza Database"]
+
+["visual data"] -- ["App Django"]
+
+@enduml
