@@ -46,7 +46,7 @@ for client in range(1, 11):
 
     insert = "INSERT INTO oc_dapython_pr6.commande (client_id, boutique_id, paiement_type_id, date, paiement) VALUES "
     (paiement_type, paid) = paiement()
-    var = "('{}', '{}', '{}', '{}', '{}');".format(client, boutique(), paiement_type, randtime(), paid )
+    var = "('{}', '{}', '{}', '{}', {});".format(client, boutique(), paiement_type, randtime(), paid )
     print(insert+var)
     
     print("SET @NewCommande = (SELECT MAX(id) FROM oc_dapython_pr6.commande);")
