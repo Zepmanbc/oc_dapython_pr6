@@ -49,7 +49,45 @@ JOIN status_commande ON status_commande.id = commande.status_id
 JOIN paiement_type ON paiement_type.id = paiement_type_id
 WHERE commande.boutique_id = 1
 ORDER BY status_commande.id;
-
+-- Affiche les commandes de la boutique
+CREATE VIEW v_commandes_boutique_sud AS
+SELECT 
+CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
+status_commande.designation AS Status_commande,
+paiement_type.designation AS "Mode de paiement",
+IF(commande.paiement, "OK", "...") AS Paiement
+FROM commande 
+JOIN authentification ON authentification.id = commande.client_id
+JOIN status_commande ON status_commande.id = commande.status_id
+JOIN paiement_type ON paiement_type.id = paiement_type_id
+WHERE commande.boutique_id = 2
+ORDER BY status_commande.id;
+-- Affiche les commandes de la boutique
+CREATE VIEW v_commandes_boutique_est AS
+SELECT 
+CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
+status_commande.designation AS Status_commande,
+paiement_type.designation AS "Mode de paiement",
+IF(commande.paiement, "OK", "...") AS Paiement
+FROM commande 
+JOIN authentification ON authentification.id = commande.client_id
+JOIN status_commande ON status_commande.id = commande.status_id
+JOIN paiement_type ON paiement_type.id = paiement_type_id
+WHERE commande.boutique_id = 3
+ORDER BY status_commande.id;
+-- Affiche les commandes de la boutique
+CREATE VIEW v_commandes_boutique_ouest AS
+SELECT 
+CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
+status_commande.designation AS Status_commande,
+paiement_type.designation AS "Mode de paiement",
+IF(commande.paiement, "OK", "...") AS Paiement
+FROM commande 
+JOIN authentification ON authentification.id = commande.client_id
+JOIN status_commande ON status_commande.id = commande.status_id
+JOIN paiement_type ON paiement_type.id = paiement_type_id
+WHERE commande.boutique_id = 4
+ORDER BY status_commande.id;
 --
 -- PROCEDURES
 --
@@ -82,6 +120,7 @@ BEGIN
 		(SELECT SUM(recette.prix)
 			FROM recette
 			RIGHT JOIN commande_composition ON commande_composition.recette_id = recette.id
+			WHERE commande_composition.commande_id = commande.id
 		) AS prix, 
 		CONCAT(paiement_type.designation, IF(paiement," OK", " ...")) AS Paiement
 	FROM commande
