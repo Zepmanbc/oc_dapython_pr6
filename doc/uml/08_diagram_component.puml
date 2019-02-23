@@ -11,13 +11,15 @@ database Postgres {
     [OC Pizza DB]
 }
 
-node Banque {
+node Banque <<composant externe>> {
     [API de paiement]
 }
 
-[Commande] -- [API de paiement]
+[Commande] -- () "Validation paiement"
+() "Validation paiement" -- [API de paiement]
 
-[OC Pizza DB] -- Django
+[OC Pizza DB] -- () "Gestion des données"
+() "Gestion des données" -- Django
 
 [Boutique] - [Recette]
 [Authentification] - [Commande]

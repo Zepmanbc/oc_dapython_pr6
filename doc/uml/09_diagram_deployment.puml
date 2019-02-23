@@ -6,33 +6,32 @@ node "appareil utilisateur"{
     [navigateur web]
 }
 
-
-
 cloud {
-    rectangle AWS{
+    rectangle "Amazon Web Service"{
         node gunicorn {
             ["App Django"]
         }
         node Nginx{
-            ["visual data"]
+            ["Données statiques"]
         }
-    }
-    database "Postgres"{
+        database "Postgres"{
         ["OC Pizza Database"]
+    }
+    
 }
 }
 cloud {
-    [Banque]
+    [Banque API]
 }
 
-[navigateur web] -> ["App Django"]
+[navigateur web] -> ["App Django"] : "           HTTPS           "
 
-[navigateur web] --> [Banque]
+[navigateur web] --> [Banque API] : "HTTPS"
 
-["App Django"] -- [Banque]
+["App Django"] -- [Banque API] : "TCP/IP"
 
-["App Django"] -- ["OC Pizza Database"]
+["App Django"] -up- ["OC Pizza Database"] : TCP/IP"
 
-["visual data"] -- ["App Django"]
+["App Django"] - ["Données statiques"]: "       TCP/IP"
 
 @enduml
