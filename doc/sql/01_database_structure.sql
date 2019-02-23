@@ -92,7 +92,6 @@ CREATE TABLE status_composition (
     PRIMARY KEY (id)
 );
 
-
 CREATE TABLE stock (
   ingredient_id INT UNSIGNED NOT NULL,
   boutique_id INT UNSIGNED NOT NULL,
@@ -147,6 +146,7 @@ ADD CONSTRAINT fk_recette_composition_ingredient_id FOREIGN KEY (ingredient_id) 
 -- TRIGGERS;
 --
 
+-- Création du stock lors de la création d'une boutique
 CREATE TRIGGER after_insert_boutique AFTER INSERT ON boutique FOR EACH ROW 
 INSERT INTO stock (ingredient_id, boutique_id, quantite) 
     SELECT ingredient.id as ingredient_id, 
@@ -154,9 +154,11 @@ INSERT INTO stock (ingredient_id, boutique_id, quantite)
     0 as quantity
 FROM ingredient;
 
+-- suppression du stock en cas de suppression d'une boutique
 CREATE TRIGGER after_delete_boutique AFTER DELETE ON boutique FOR EACH ROW 
 DELETE FROM stock WHERE boutique_id = old.id;
 
+-- ajout d'un ingrédtien dans le stock de chaque boutique lors de la création d'un nouvel ingrédient
 CREATE TRIGGER after_insert_ingredient AFTER INSERT ON ingredient FOR EACH ROW 
 INSERT INTO stock (ingredient_id, boutique_id, quantite) 
     SELECT new.id as ingredient_id, 
@@ -164,9 +166,12 @@ INSERT INTO stock (ingredient_id, boutique_id, quantite)
     0 as quantity
 FROM boutique;
 
+-- suppression de l'ingrédient dans les stock de toutes les boutique en cas de suppression d'un ingrédient
 CREATE TRIGGER after_delete_ingredient AFTER DELETE ON ingredient FOR EACH ROW 
 DELETE FROM stock WHERE ingredient_id = old.id;
 
+
+-- procedure qui retire les ingrédients d'une recette dans le stock (infos récupéréer sur la commande_composition)
 DELIMITER |
 CREATE PROCEDURE retire_ligne_commande_stock (IN variable INT)
 BEGIN
