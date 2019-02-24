@@ -36,6 +36,37 @@ UPDATE commande SET status_id = (
 	WHERE commande_id = var_commande_id
     ) WHERE id = var_commande_id;
 
+-- savoir si une commande est terminée
+SET @commid = 6;
+SELECT 
+	CASE
+    	WHEN status_id=5 AND paiement
+        THEN "Termine"
+      	ELSE "Encours"
+    END AS etat
+FROM commande
+WHERE id = @commid;
+
+-- retourne le status et le modifie si livré et payé
+SET @commid = 4;
+SELECT 
+    CASE
+        WHEN status_id=5 AND paiement THEN 6
+        ELSE status_id
+    END AS new_status_id
+FROM commande
+WHERE id = @commid;
+
+
+
+
+
+
+
+
+
+
+
 
 
 

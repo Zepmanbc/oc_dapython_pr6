@@ -54,7 +54,7 @@ CREATE TABLE ingredient (
 
 CREATE TABLE paiement_type (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    designation VARCHAR(10) NOT NULL,
+    designation VARCHAR(15) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -146,6 +146,7 @@ ADD CONSTRAINT fk_recette_composition_ingredient_id FOREIGN KEY (ingredient_id) 
 -- TRIGGERS;
 --
 
+
 -- Création du stock lors de la création d'une boutique
 CREATE TRIGGER after_insert_boutique AFTER INSERT ON boutique FOR EACH ROW 
 INSERT INTO stock (ingredient_id, boutique_id, quantite) 
@@ -154,9 +155,11 @@ INSERT INTO stock (ingredient_id, boutique_id, quantite)
     0 as quantity
 FROM ingredient;
 
+
 -- suppression du stock en cas de suppression d'une boutique
 CREATE TRIGGER after_delete_boutique AFTER DELETE ON boutique FOR EACH ROW 
 DELETE FROM stock WHERE boutique_id = old.id;
+
 
 -- ajout d'un ingrédtien dans le stock de chaque boutique lors de la création d'un nouvel ingrédient
 CREATE TRIGGER after_insert_ingredient AFTER INSERT ON ingredient FOR EACH ROW 
@@ -166,13 +169,14 @@ INSERT INTO stock (ingredient_id, boutique_id, quantite)
     0 as quantity
 FROM boutique;
 
+
 -- suppression de l'ingrédient dans les stock de toutes les boutique en cas de suppression d'un ingrédient
 CREATE TRIGGER after_delete_ingredient AFTER DELETE ON ingredient FOR EACH ROW 
 DELETE FROM stock WHERE ingredient_id = old.id;
 
+
 -- procedure qui affiche les ingrédients à retirer dans une commande_composition
 -- A essayer d'utiliser dans la procédure suivante, mais le call ne fonctionne pas...
-
 CREATE PROCEDURE affiche_commande_composition (IN var_commande_id INT)
     SELECT 
         recette_composition.ingredient_id, 
@@ -250,5 +254,16 @@ BEGIN
         ELSE BEGIN END; 
     END CASE;
     CALL update_etat_commande(new.commande_id);
+END|
+DELIMITER ;
+
+-- mise à jour de la commande en Terminé quand la commande est livrée et payée
+DELIMITER |
+CREATE TRIGGER `before_update_commande` BEFORE UPDATE ON `commande`
+FOR EACH ROW 
+BEGIN
+	IF new.status_id = 5 AND new.paiement
+		THEN SET new.status_id = 6;
+	END IF;
 END|
 DELIMITER ;

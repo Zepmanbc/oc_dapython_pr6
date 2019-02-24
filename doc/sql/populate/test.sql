@@ -292,3 +292,43 @@ UPDATE commande SET status_id = (
 	FROM commande_composition
 	WHERE commande_id = var_commande_id
     ) WHERE id = var_commande_id;
+
+
+-- si ma commande est livrée et payé je passe le status à terminé
+if new.status_id = 6 AND new.paiement = 1
+THEN
+	BEGIN
+	UPDATE commande SET status.id = 7 WHERE id = var_commande_id;
+	END
+
+
+SET @commid = 1;
+UPDATE commande SET status_id = (
+	SELECT 
+		CASE
+			WHEN status_id=5 AND paiement THEN 6
+			ELSE status_id
+		END AS new_status_id;
+	FROM commande
+	WHERE id = @commid;
+) 
+WHERE id = @commid;
+
+SET @commid = 1;
+UPDATE commande SET status_id = (
+	SELECT 
+		IF status_id=5 AND paiement THEN 6
+			ELSE status_id;
+	FROM commande
+	WHERE id = @commid
+) 
+WHERE id = @commid;
+
+
+CREATE TRIGGER `before_update_commande` BEFORE UPDATE ON `commande`
+FOR EACH ROW 
+BEGIN
+	IF new.status_id = 5 AND new.paiement
+		THEN SET new.status_id = 6;
+	END IF;
+END
