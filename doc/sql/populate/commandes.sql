@@ -1,4 +1,4 @@
-INSERT INTO oc_dapython_pr6.commande (client_id, boutique_id, paiement_type_id, date, paiement) VALUES ('1', '4', '3', '2019-02-20 04:05:57', False);
+INSERT INTO oc_dapython_pr6.commande (client_id, boutique_id, paiement_type_id, date, paiement) VALUES ('1', '1', '3', '2019-02-20 04:05:57', False);
 SET @NewCommande = (SELECT MAX(id) FROM oc_dapython_pr6.commande);
 INSERT INTO `oc_dapython_pr6`.`commande_composition` (`commande_id`, `recette_id`) VALUES (@NewCommande, '3');
 INSERT INTO `oc_dapython_pr6`.`commande_composition` (`commande_id`, `recette_id`) VALUES (@NewCommande, '3');

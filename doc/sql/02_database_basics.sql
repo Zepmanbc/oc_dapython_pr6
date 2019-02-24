@@ -20,7 +20,7 @@ INSERT INTO `status_commande` (`id`, `designation`) VALUES
 (6, 'terminé');
 
 INSERT INTO `status_composition` (`id`, `designation`) VALUES
-(1, 'validé'),
+(1, 'en attente'),
 (2, 'en préparation'),
 (3, 'prêt');
 

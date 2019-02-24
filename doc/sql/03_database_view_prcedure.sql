@@ -5,7 +5,7 @@ USE oc_dapython_pr6;
 --
 
 -- Affiche le stock actuel de la boutique
-CREATE VIEW v_stock_boutique_nord AS
+CREATE VIEW v_1_stock_boutique_nord AS
 SELECT nom as Ingrédient, CONCAT(quantite, " ", unite) AS Quantité
 FROM stock
 JOIN ingredient ON stock.ingredient_id = ingredient.id
@@ -13,7 +13,7 @@ WHERE boutique_id = 1
 ORDER BY nom;
 
 -- Affiche le stock actuel de la boutique
-CREATE VIEW v_stock_boutique_sud AS
+CREATE VIEW v_2_stock_boutique_sud AS
 SELECT nom as Ingrédient, CONCAT(quantite, " ", unite) AS Quantité
 FROM stock
 JOIN ingredient ON stock.ingredient_id = ingredient.id
@@ -21,7 +21,7 @@ WHERE boutique_id = 2
 ORDER BY nom;
 
 -- Affiche le stock actuel de la boutique
-CREATE VIEW v_stock_boutique_est AS
+CREATE VIEW v_3_stock_boutique_est AS
 SELECT nom as Ingrédient, CONCAT(quantite, " ", unite) AS Quantité
 FROM stock
 JOIN ingredient ON stock.ingredient_id = ingredient.id
@@ -29,7 +29,7 @@ WHERE boutique_id = 3
 ORDER BY nom;
 
 -- Affiche le stock actuel de la boutique
-CREATE VIEW v_stock_boutique_ouest AS
+CREATE VIEW v_4_stock_boutique_ouest AS
 SELECT nom as Ingrédient, CONCAT(quantite, " ", unite) AS Quantité
 FROM stock
 JOIN ingredient ON stock.ingredient_id = ingredient.id
@@ -37,7 +37,7 @@ WHERE boutique_id = 4
 ORDER BY nom;
 
 -- Affiche les commandes de la boutique
-CREATE VIEW v_commandes_boutique_nord AS
+CREATE VIEW v_1_commandes_boutique_nord AS
 SELECT 
 commande.id AS numero,
 CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
@@ -51,7 +51,7 @@ JOIN paiement_type ON paiement_type.id = paiement_type_id
 WHERE commande.boutique_id = 1
 ORDER BY commande.id;
 -- Affiche les commandes de la boutique
-CREATE VIEW v_commandes_boutique_sud AS
+CREATE VIEW v_2_commandes_boutique_sud AS
 SELECT 
 commande.id AS numero,
 CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
@@ -65,7 +65,7 @@ JOIN paiement_type ON paiement_type.id = paiement_type_id
 WHERE commande.boutique_id = 2
 ORDER BY commande.id;
 -- Affiche les commandes de la boutique
-CREATE VIEW v_commandes_boutique_est AS
+CREATE VIEW v_3_commandes_boutique_est AS
 SELECT 
 commande.id AS numero,
 CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
@@ -79,7 +79,7 @@ JOIN paiement_type ON paiement_type.id = paiement_type_id
 WHERE commande.boutique_id = 3
 ORDER BY commande.id;
 -- Affiche les commandes de la boutique
-CREATE VIEW v_commandes_boutique_ouest AS
+CREATE VIEW v_4_commandes_boutique_ouest AS
 SELECT 
 commande.id AS numero,
 CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
@@ -142,7 +142,11 @@ DELIMITER ;
 DELIMITER |
 CREATE PROCEDURE corps_commande(IN `var_recette_id` INT) 
 BEGIN
-	SELECT recette.nom, status_composition.designation, recette.prix
+	SELECT 
+		commande_composition.id AS cc_id, 
+		recette.nom, 
+		status_composition.designation, 
+		recette.prix
 	FROM commande_composition
 	JOIN recette ON recette.id = commande_composition.recette_id
 	JOIN status_composition ON status_composition.id = commande_composition.status_id

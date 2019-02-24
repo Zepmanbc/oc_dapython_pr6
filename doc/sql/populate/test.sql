@@ -237,10 +237,58 @@ if count(distinct) > 1 THEN status = 2
 if au moins une entre = 2 THEN status = 2
 if all 3 THEN status = 3
 
+
 SELECT DISTINCT status_id 
 FROM commande_composition
-WHERE commande_id = 3 
+WHERE commande_id = 3
+
+SELECT COUNT(DISTINCT status_id) 
+FROM commande_composition
+WHERE commande_id = 3
+
+SELECT
+CASE
+	WHEN COUNT(DISTINCT status_id) > 1 THEN "en cours"
+	WHEN status_id = 2 THEN "en preparation"
+	WHEN status_id = 3 THEN "pret"
+	ELSE "en attente"
+END AS toto
+FROM commande_composition
+WHERE commande_id = 5;
+
+SET @commid = 1;
+SELECT
+CASE
+	WHEN COUNT(DISTINCT status_id) > 1 THEN "en preparation (diff)"
+	WHEN status_id = 2 THEN "en preparation (tout)"
+	WHEN status_id = 3 THEN "pret"
+	ELSE "en attente"
+END AS toto
+FROM commande_composition
+WHERE commande_id = @commid;
 
 
 
+CREATE PROCEDURE update_etat_commande (IN var_commande_id INT)
+	SELECT
+	CASE
+		WHEN COUNT(DISTINCT status_id) > 1 THEN  2 -- en preparation (different
+		WHEN status_id = 2 THEN  2 -- en preparation (tout)
+		WHEN status_id = 3 THEN  3 -- pret
+		ELSE  1 -- en attente
+	END AS status_id
+	FROM commande_composition
+	WHERE commande_id = var_commande_id;
 
+CREATE PROCEDURE update_etat_commande (IN var_commande_id INT)
+UPDATE commande SET status_id = (
+    SELECT
+	CASE
+		WHEN COUNT(DISTINCT status_id) > 1 THEN  2 -- en preparation (different
+		WHEN status_id = 2 THEN  2 -- en preparation (tout)
+		WHEN status_id = 3 THEN  3 -- pret
+		ELSE  1 -- en attente
+	END AS status_id
+	FROM commande_composition
+	WHERE commande_id = var_commande_id
+    ) WHERE id = var_commande_id;

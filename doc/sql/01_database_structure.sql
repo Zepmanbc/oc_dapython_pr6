@@ -170,6 +170,33 @@ FROM boutique;
 CREATE TRIGGER after_delete_ingredient AFTER DELETE ON ingredient FOR EACH ROW 
 DELETE FROM stock WHERE ingredient_id = old.id;
 
+-- procedure qui affiche les ingrédients à retirer dans une commande_composition
+-- A essayer d'utiliser dans la procédure suivante, mais le call ne fonctionne pas...
+
+CREATE PROCEDURE affiche_commande_composition (IN var_commande_id INT)
+    SELECT 
+        recette_composition.ingredient_id, 
+        recette_composition.quantite,
+        commande.boutique_id
+    FROM recette_composition, commande
+    WHERE (recette_composition.recette_id, commande.id) = (
+        SELECT commande_composition.recette_id,commande_composition.commande_id
+        FROM commande_composition
+        WHERE commande_composition.id = var_commande_id);
+
+-- procedure qui met à jour le status de la commande en fonction du status de chaque pizza
+CREATE PROCEDURE update_etat_commande (IN var_commande_id INT)
+UPDATE commande SET status_id = (
+    SELECT
+	CASE
+		WHEN COUNT(DISTINCT status_id) > 1 THEN  2 -- en preparation (different
+		WHEN status_id = 2 THEN  2 -- en preparation (tout)
+		WHEN status_id = 3 THEN  3 -- pret
+		ELSE  1 -- en attente
+	END AS status_id
+	FROM commande_composition
+	WHERE commande_id = var_commande_id
+    ) WHERE id = var_commande_id;
 
 -- procedure qui retire les ingrédients d'une recette dans le stock (infos récupéréer sur la commande_composition)
 DELIMITER |
@@ -215,9 +242,13 @@ DELIMITER ;
 -- cas de mmise à jour du stock lorsque la pizza passe en preparation
 DELIMITER |
 CREATE TRIGGER `after_update_commande_composition` AFTER UPDATE ON `commande_composition`
- FOR EACH ROW CASE 
-	WHEN new.status_id = 2 
-		THEN call retire_ligne_commande_stock(new.id); 
-	ELSE BEGIN END; 
-END CASE|
+FOR EACH ROW 
+BEGIN
+    CASE 
+        WHEN new.status_id = 2 
+            THEN call retire_ligne_commande_stock(new.id); 
+        ELSE BEGIN END; 
+    END CASE;
+    CALL update_etat_commande(new.commande_id);
+END|
 DELIMITER ;
