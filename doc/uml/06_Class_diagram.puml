@@ -52,7 +52,7 @@ class Ingredient{
     unite: String
 }
 
-class Authentification{
+class User{
     identifier()
     creer_utilisateur()
     modifier_utilisateur()
@@ -78,8 +78,8 @@ Commande *- Recette
 
 Recette *-- Ingredient
 
-Authentification - Commande
-Authentification - Boutique
+User - Commande
+User - Boutique
 Commande -- Boutique
 
 Boutique - Ingredient

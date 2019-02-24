@@ -2,7 +2,7 @@
 title Diagramme de composants
 
 node Django {
-    [Authentification]
+    [User]
     [Commande]
     [Boutique]
     [Recette]
@@ -22,8 +22,8 @@ node Banque <<composant externe>> {
 () "Gestion des données" -- Django
 
 [Boutique] - [Recette]
-[Authentification] - [Commande]
-[Boutique] -- [Authentification]
+[User] - [Commande]
+[Boutique] -- [User]
 [Recette] -- [Commande]
 [Boutique] -- [Commande]
 

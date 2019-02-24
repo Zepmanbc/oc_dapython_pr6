@@ -70,7 +70,7 @@ object stock{
     
 }
 
-object authentification{
+object User{
     [PK] id: INTEGER NOT NULL
     [FK] boutique_id: INTEGER
     [FK] role_id: INTEGER NOT NULL
@@ -102,8 +102,8 @@ commande_composition . (commande, recette)
 recette "0..*" *-- "0..*" ingredient
 (recette, ingredient) . recette_composition
 
-authentification "0..1" - "0..*" commande
-authentification "0..*" - "0..1" boutique
+User "0..1" - "0..*" commande
+User "0..*" - "0..1" boutique
 commande "0..*" -- "1" boutique
 
 boutique "1" - "1" ingredient
@@ -112,7 +112,7 @@ boutique "1" - "1" ingredient
 status_commande "1" -- "*" commande
 commande_composition "*" - "1" status_composition
 
-authentification "0..*" -- "1" role
+User "0..*" -- "1" role
 
 paiement_type "1" -- "*" commande
 
