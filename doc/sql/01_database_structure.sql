@@ -4,7 +4,7 @@ CREATE DATABASE oc_dapython_pr6 CHARACTER SET 'utf8';
 
 USE oc_dapython_pr6;
 
-CREATE TABLE authentification (
+CREATE TABLE user (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     boutique_id INT UNSIGNED DEFAULT NULL,
     role_id INT UNSIGNED NOT NULL,
@@ -103,14 +103,14 @@ CREATE TABLE stock (
 -- CONTRAINTES;
 --
 
-ALTER TABLE authentification 
-ADD CONSTRAINT fk_authentification_boutique_id FOREIGN KEY (boutique_id) REFERENCES boutique(id) ON DELETE SET NULL;
+ALTER TABLE user 
+ADD CONSTRAINT fk_user_boutique_id FOREIGN KEY (boutique_id) REFERENCES boutique(id) ON DELETE SET NULL;
 
-ALTER TABLE authentification 
-ADD CONSTRAINT fk_authentification_role_id FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE RESTRICT;
+ALTER TABLE user 
+ADD CONSTRAINT fk_user_role_id FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE RESTRICT;
 
 ALTER TABLE commande 
-ADD CONSTRAINT fk_commande_client_id FOREIGN KEY (client_id) REFERENCES authentification(id) ON DELETE RESTRICT;
+ADD CONSTRAINT fk_commande_client_id FOREIGN KEY (client_id) REFERENCES user(id) ON DELETE RESTRICT;
 
 ALTER TABLE commande 
 ADD CONSTRAINT fk_commande_boutique_id FOREIGN KEY (boutique_id) REFERENCES boutique(id) ON DELETE RESTRICT;
@@ -175,19 +175,6 @@ CREATE TRIGGER after_delete_ingredient AFTER DELETE ON ingredient FOR EACH ROW
 DELETE FROM stock WHERE ingredient_id = old.id;
 
 
--- procedure qui affiche les ingrédients à retirer dans une commande_composition
--- A essayer d'utiliser dans la procédure suivante, mais le call ne fonctionne pas...
-CREATE PROCEDURE affiche_commande_composition (IN var_commande_id INT)
-    SELECT 
-        recette_composition.ingredient_id, 
-        recette_composition.quantite,
-        commande.boutique_id
-    FROM recette_composition, commande
-    WHERE (recette_composition.recette_id, commande.id) = (
-        SELECT commande_composition.recette_id,commande_composition.commande_id
-        FROM commande_composition
-        WHERE commande_composition.id = var_commande_id);
-
 -- procedure qui met à jour le status de la commande en fonction du status de chaque pizza
 CREATE PROCEDURE update_etat_commande (IN var_commande_id INT)
 UPDATE commande SET status_id = (
@@ -201,6 +188,21 @@ UPDATE commande SET status_id = (
 	FROM commande_composition
 	WHERE commande_id = var_commande_id
     ) WHERE id = var_commande_id;
+
+
+-- procedure qui affiche les ingrédients à retirer dans une commande_composition
+-- A essayer d'utiliser dans la procédure suivante, mais le call ne fonctionne pas...
+CREATE PROCEDURE affiche_commande_composition (IN var_commande_id INT)
+    SELECT 
+        recette_composition.ingredient_id, 
+        recette_composition.quantite,
+        commande.boutique_id
+    FROM recette_composition, commande
+    WHERE (recette_composition.recette_id, commande.id) = (
+        SELECT commande_composition.recette_id,commande_composition.commande_id
+        FROM commande_composition
+        WHERE commande_composition.id = var_commande_id);
+
 
 -- procedure qui retire les ingrédients d'une recette dans le stock (infos récupéréer sur la commande_composition)
 DELIMITER |
@@ -241,9 +243,11 @@ DELIMITER ;
 -- cas de mise a jour du stock à la validation de commande
 -- CREATE TRIGGER `after_insert_commande_composition` 
 -- AFTER INSERT ON `commande_composition` FOR EACH ROW  
--- call retire_ligne_commande_stock (new.recette_id); 
+-- call retire_ligne_commande_stock (new.recette_id);
+-- CREATE TRIGGER `after_update_commande_composition` AFTER UPDATE ON `commande_composition`FOR EACH ROW
+-- CALL update_etat_commande(new.commande_id);
 
--- cas de mmise à jour du stock lorsque la pizza passe en preparation
+-- cas de mise à jour du stock lorsque la pizza passe en preparation
 DELIMITER |
 CREATE TRIGGER `after_update_commande_composition` AFTER UPDATE ON `commande_composition`
 FOR EACH ROW 

@@ -40,12 +40,12 @@ ORDER BY nom;
 CREATE VIEW v_1_commandes_boutique_nord AS
 SELECT 
 commande.id AS numero,
-CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
+CONCAT(user.prenom, " ", user.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
 IF(commande.paiement, "OK", "...") AS Paiement
 FROM commande 
-JOIN authentification ON authentification.id = commande.client_id
+JOIN user ON user.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
 JOIN paiement_type ON paiement_type.id = paiement_type_id
 WHERE commande.boutique_id = 1
@@ -54,12 +54,12 @@ ORDER BY commande.id;
 CREATE VIEW v_2_commandes_boutique_sud AS
 SELECT 
 commande.id AS numero,
-CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
+CONCAT(user.prenom, " ", user.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
 IF(commande.paiement, "OK", "...") AS Paiement
 FROM commande 
-JOIN authentification ON authentification.id = commande.client_id
+JOIN user ON user.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
 JOIN paiement_type ON paiement_type.id = paiement_type_id
 WHERE commande.boutique_id = 2
@@ -68,12 +68,12 @@ ORDER BY commande.id;
 CREATE VIEW v_3_commandes_boutique_est AS
 SELECT 
 commande.id AS numero,
-CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
+CONCAT(user.prenom, " ", user.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
 IF(commande.paiement, "OK", "...") AS Paiement
 FROM commande 
-JOIN authentification ON authentification.id = commande.client_id
+JOIN user ON user.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
 JOIN paiement_type ON paiement_type.id = paiement_type_id
 WHERE commande.boutique_id = 3
@@ -82,12 +82,12 @@ ORDER BY commande.id;
 CREATE VIEW v_4_commandes_boutique_ouest AS
 SELECT 
 commande.id AS numero,
-CONCAT(authentification.prenom, " ", authentification.nom) AS Client,
+CONCAT(user.prenom, " ", user.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
 IF(commande.paiement, "OK", "...") AS Paiement
 FROM commande 
-JOIN authentification ON authentification.id = commande.client_id
+JOIN user ON user.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
 JOIN paiement_type ON paiement_type.id = paiement_type_id
 WHERE commande.boutique_id = 4
@@ -119,7 +119,7 @@ CREATE PROCEDURE entete_commande(IN `var_recette_id` INT)
 BEGIN
 	SELECT 
 		LEFT(commande.date, 10) AS Date, 
-		CONCAT(authentification.prenom, " ", authentification.nom) AS Client, 
+		CONCAT(user.prenom, " ", user.nom) AS Client, 
 		status_commande.designation AS Status, 
 		(SELECT SUM(recette.prix)
 			FROM recette
@@ -128,7 +128,7 @@ BEGIN
 		) AS prix, 
 		CONCAT(paiement_type.designation, IF(paiement," OK", " ...")) AS Paiement
 	FROM commande
-	JOIN authentification ON authentification.id = commande.client_id
+	JOIN user ON user.id = commande.client_id
 	JOIN status_commande ON status_commande.id = commande.status_id
 	JOIN paiement_type ON paiement_type.id = commande.paiement_type_id
 	WHERE commande.id = var_recette_id;

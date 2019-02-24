@@ -87,27 +87,3 @@ INSERT INTO `recette_composition` (`recette_id`, `ingredient_id`, `quantite`) VA
 (3, 13, 10),
 (3, 14, 5),
 (3, 16, 1);
-
---
---  USERS SAMPLE;
---
-
--- INSERT INTO `authentification` (`id`, `boutique_id`, `role_id`, `login`, `telephone`, `password`, `nom`, `prenom`, `email`) VALUES
--- (1, NULL, 1, 'directeur', '', 'directeur_password', '', '', ''),
--- (2, 1, 2, 'Piz_nord', '', '', '', '', ''),
--- (3, 1, 3, 'stock_nord', '', '', '', '', ''),
--- (4, 1, 4, 'Commande_nord', '', '', '', '', ''),
--- (5, 2, 2, 'piz_sud', '', '', '', '', ''),
--- (6, 2, 3, 'stock_sud', '', '', '', '', ''),
--- (7, 2, 3, 'cmd_sud', '', '', '', '', ''),
--- (8, 3, 2, 'piz_est', '', '', '', '', ''),
--- (9, 3, 3, 'stock_est', '', '', '', '', ''),
--- (10, 3, 3, 'cmd_est', '', '', '', '', ''),
--- (11, 4, 2, 'piz_ouest', '', '', '', '', ''),
--- (12, 4, 3, 'stock_ouest', '', '', '', '', ''),
--- (13, 4, 3, 'cmd_ouest', '', '', '', '', ''),
--- (14, 1, 5, 'client1_nord', '0320123456', 'biloute', 'Jean', 'Du Nord', 'jean.dunord@nordnet.com'),
--- (15, 2, 5, 'client_sud', '0494123456', 'cigale', 'Jean', 'Du Sud', 'jean.dusud@figalou.net'),
--- (16, 3, 5, 'client_est', '0312345678', 'flamenkuche', 'Jean', 'De Lest', 'jean.delest@saucisse.com'),
--- (17, 4, 5, 'client_ouest', '0212345678', 'bateau', 'Jean', 'De Louest', 'jean.delouest@mouette.net');
-

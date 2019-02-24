@@ -324,11 +324,12 @@ UPDATE commande SET status_id = (
 ) 
 WHERE id = @commid;
 
-
+DELIMITER |
 CREATE TRIGGER `before_update_commande` BEFORE UPDATE ON `commande`
 FOR EACH ROW 
 BEGIN
 	IF new.status_id = 5 AND new.paiement
 		THEN SET new.status_id = 6;
 	END IF;
-END
+END|
+DELIMITER ;
