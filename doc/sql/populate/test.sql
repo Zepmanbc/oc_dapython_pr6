@@ -333,3 +333,129 @@ BEGIN
 	END IF;
 END|
 DELIMITER ;
+
+-- je veux savoir combien de pizza de chaque il est potentiellement possible de faire
+-- pour chaque pizza, compter combien il est possible de faire
+
+-- pour chaque boutiaue
+-- pour chaque recette
+-- 	chaque ingrédient
+-- 		min(stock.qte/ingredient.qte = floor(result))
+
+-- je veux afficher:
+-- 	recette1 = qte
+-- 	recette2 = qte
+
+-- retourne la quantité d'un ingredient dans une boutique donnée
+SELECT boutique.id, stock.quantite
+FROM stock
+JOIN boutique ON boutique.id = stock.boutique_id
+WHERE stock.ingredient_id = 3 AND boutique.id = 1
+
+-- retourne la quantite en stock et la quantité necessaire pour une recette donnée à un ingredient donné dans une boutique
+SELECT 
+	boutique.id, 
+	stock.quantite, 
+	recette_composition.quantite,
+	FLOOR(stock.quantite / recette_composition.quantite) AS qte_possible
+FROM stock
+JOIN boutique ON boutique.id = stock.boutique_id
+JOIN recette_composition ON recette_composition.ingredient_id = stock.ingredient_id
+WHERE stock.ingredient_id = 3 AND boutique.id = 1 AND recette_composition.recette_id = 1
+
+-- retourne la quantité possible de chaque ingrédient d'une recette donnée dans une boutique
+SELECT 
+	boutique.id,
+	ingredient.nom, 
+	stock.quantite, 
+	recette_composition.quantite,
+	FLOOR(stock.quantite / recette_composition.quantite) AS qte_possible
+FROM stock
+JOIN boutique ON boutique.id = stock.boutique_id
+JOIN recette_composition ON recette_composition.ingredient_id = stock.ingredient_id
+JOIN ingredient ON ingredient.id = stock.ingredient_id
+WHERE boutique.id = 1 AND recette_composition.recette_id = 1
+
+-- ajout du nom de la recette
+SELECT 
+	boutique.id,
+    recette.nom,
+	ingredient.nom, 
+	stock.quantite, 
+	recette_composition.quantite,
+	FLOOR(stock.quantite / recette_composition.quantite) AS qte_possible
+FROM stock
+JOIN boutique ON boutique.id = stock.boutique_id
+JOIN recette_composition ON recette_composition.ingredient_id = stock.ingredient_id
+JOIN ingredient ON ingredient.id = stock.ingredient_id
+JOIN recette ON recette.id = recette_composition.recette_id
+WHERE boutique.id = 1 AND recette_composition.recette_id = 1
+
+-- retourne le nombre de pizza possible mini pour une boutique
+SELECT 
+	boutique.id,
+    recette.nom,
+	MIN(FLOOR(stock.quantite / recette_composition.quantite)) AS qte_possible
+FROM stock
+JOIN boutique ON boutique.id = stock.boutique_id
+JOIN recette_composition ON recette_composition.ingredient_id = stock.ingredient_id
+JOIN ingredient ON ingredient.id = stock.ingredient_id
+JOIN recette ON recette.id = recette_composition.recette_id
+WHERE boutique.id = 1 GROUP BY recette_id
+
+
+-- retourne la quantite possible de recette par une boutique
+DELIMITER |
+CREATE PROCEDURE recette_possible(IN `var_boutique_id` INT) 
+BEGIN
+	SELECT 
+		recette.nom,
+		MIN(FLOOR(stock.quantite / recette_composition.quantite)) AS qte_possible
+	FROM stock
+	JOIN boutique ON boutique.id = stock.boutique_id
+	JOIN recette_composition ON recette_composition.ingredient_id = stock.ingredient_id
+	JOIN ingredient ON ingredient.id = stock.ingredient_id
+	JOIN recette ON recette.id = recette_composition.recette_id
+	WHERE boutique.id = var_boutique_id GROUP BY recette_id;
+END|
+DELIMITER ;
+
+
+-- je veux connaitre le chiffre d'affaire des pizzeria sur une periode donnée
+pour une boutique
+	pour des commandes sur une periode
+		pour les pizza 
+			sum(prix)
+
+-- affiche toutes les commandes
+SELECT boutique.id, commande.id, commande_composition.id, recette.prix
+FROM recette
+JOIN commande_composition ON commande_composition.recette_id = recette.id
+JOIN commande ON commande.id = commande_composition.commande_id
+JOIN boutique ON boutique.id = commande.boutique_id
+
+-- affiche la somme par boutique
+SELECT boutique.id, SUM(recette.prix)
+FROM recette
+JOIN commande_composition ON commande_composition.recette_id = recette.id
+JOIN commande ON commande.id = commande_composition.commande_id
+JOIN boutique ON boutique.id = commande.boutique_id
+GROUP BY boutique.id
+
+-- ne compte que les commandes payées
+SELECT boutique.id, SUM(recette.prix)
+FROM recette
+JOIN commande_composition ON commande_composition.recette_id = recette.id
+JOIN commande ON commande.id = commande_composition.commande_id
+JOIN boutique ON boutique.id = commande.boutique_id
+WHERE commande.paiement AND commande.date = CURDATE()
+GROUP BY boutique.id
+
+-- pour une date donnée
+SELECT boutique.id, SUM(recette.prix)
+FROM recette
+JOIN commande_composition ON commande_composition.recette_id = recette.id
+JOIN commande ON commande.id = commande_composition.commande_id
+JOIN boutique ON boutique.id = commande.boutique_id
+WHERE commande.paiement AND DATE(commande.date) = "2019-02-20"
+GROUP BY boutique.id

@@ -154,3 +154,42 @@ BEGIN
 	ORDER BY recette.nom;
 END|
 DELIMITER ;
+
+-- retourne la quantite possible de recette par une boutique
+DELIMITER |
+CREATE PROCEDURE recette_possible(IN `var_boutique_id` INT) 
+BEGIN
+	SELECT 
+		recette.nom,
+		MIN(FLOOR(stock.quantite / recette_composition.quantite)) AS qte_possible
+	FROM stock
+	JOIN boutique ON boutique.id = stock.boutique_id
+	JOIN recette_composition ON recette_composition.ingredient_id = stock.ingredient_id
+	JOIN ingredient ON ingredient.id = stock.ingredient_id
+	JOIN recette ON recette.id = recette_composition.recette_id
+	WHERE boutique.id = var_boutique_id GROUP BY recette_id;
+END|
+DELIMITER ;
+
+-- vue globale des recettes dispo sur toutes les boutiques
+CREATE VIEW v_0_recettes_possible AS
+SELECT 
+	boutique.id as boutique,
+    recette.nom,
+	MIN(FLOOR(stock.quantite / recette_composition.quantite)) AS qte_possible
+FROM stock
+JOIN boutique ON boutique.id = stock.boutique_id
+JOIN recette_composition ON recette_composition.ingredient_id = stock.ingredient_id
+JOIN ingredient ON ingredient.id = stock.ingredient_id
+JOIN recette ON recette.id = recette_composition.recette_id
+GROUP BY boutique.id, recette_id;
+
+-- vue globale du chiffre d'affaire de la journée (en temps réél)
+CREATE VIEW v_0_chiffre_d_affaire_journée AS
+SELECT boutique.id, SUM(recette.prix)
+FROM recette
+JOIN commande_composition ON commande_composition.recette_id = recette.id
+JOIN commande ON commande.id = commande_composition.commande_id
+JOIN boutique ON boutique.id = commande.boutique_id
+WHERE commande.paiement AND DATE(commande.date) = CURDATE()
+GROUP BY boutique.id;
