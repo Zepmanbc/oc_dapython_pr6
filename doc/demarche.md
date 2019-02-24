@@ -33,6 +33,8 @@ remplissage de la base
 
 [commandes.sql](https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/sql/populate/commandes.sql) ([commandes.py](https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/sql/populate/commandes.py))
 
+Dump de la base : [oc_dapython_pr6.sql](https://raw.githubusercontent.com/Zepmanbc/oc_dapython_pr6/master/doc/oc_dapython_pr6.sql)
+
 # Mise en situation
 
 * Voir les pizzas dispo en fonction des ingrédients
