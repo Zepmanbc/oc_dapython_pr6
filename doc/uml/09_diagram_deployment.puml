@@ -30,7 +30,7 @@ cloud {
 
 ["App Django"] -- [Banque API] : "TCP/IP"
 
-["App Django"] -up- ["OC Pizza Database"] : TCP/IP"
+["App Django"] -up- ["OC Pizza Database"] : "TCP/IP"
 
 ["App Django"] - ["Données statiques"]: "       TCP/IP"
 
