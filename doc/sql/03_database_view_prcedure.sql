@@ -186,7 +186,9 @@ GROUP BY boutique.id, recette_id;
 
 -- vue globale du chiffre d'affaire de la journée (en temps réél)
 CREATE VIEW v_0_chiffre_d_affaire_journée AS
-SELECT boutique.id, SUM(recette.prix)
+SELECT 
+	boutique.id AS boutique, 
+	SUM(recette.prix) as total
 FROM recette
 JOIN commande_composition ON commande_composition.recette_id = recette.id
 JOIN commande ON commande.id = commande_composition.commande_id
