@@ -224,11 +224,10 @@ BEGIN
 	-- END MODIF
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = 1;
 	OPEN mon_curseur;
-		loop_curseur: LOOP 
-            IF fin = 1 THEN LEAVE loop_curseur;	END IF;     
+		loop_curseur: LOOP  
 			-- START MODIF
 			FETCH mon_curseur INTO v_ingredient_id, v_quantite, v_boutique_id;
-
+            IF fin = 1 THEN LEAVE loop_curseur;	END IF; 
 			UPDATE stock 
 			SET quantite = quantite - v_quantite 
 			WHERE ingredient_id = v_ingredient_id 
