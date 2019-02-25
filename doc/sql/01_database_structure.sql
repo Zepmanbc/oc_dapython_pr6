@@ -5,7 +5,7 @@ CREATE DATABASE oc_dapython_pr6 CHARACTER SET 'utf8';
 USE oc_dapython_pr6;
 
 CREATE TABLE users (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     boutique_id INT DEFAULT NULL,
     role_id INT NOT NULL,
     login VARCHAR(255) NOT NULL,
@@ -17,14 +17,14 @@ CREATE TABLE users (
 );
 
 CREATE TABLE boutique (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
     adresse VARCHAR(255) NOT NULL,
     horaires TEXT NOT NULL
 );
 
 CREATE TABLE commande (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     client_id INT NOT NULL,
     boutique_id INT NOT NULL,
     status_id INT NOT NULL DEFAULT '1',
@@ -34,25 +34,25 @@ CREATE TABLE commande (
 );
 
 CREATE TABLE commande_composition (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     commande_id INT NOT NULL,
     recette_id INT NOT NULL,
     status_id INT NOT NULL DEFAULT '1'
 );
 
 CREATE TABLE ingredient (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
     unite VARCHAR(8) NOT NULL
 );
 
 CREATE TABLE paiement_type (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     designation VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE recette (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
     designation_commerciale text,
     designation_technique text,
@@ -67,17 +67,17 @@ CREATE TABLE recette_composition (
 );
 
 CREATE TABLE role (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     designation VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE status_commande (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     designation VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE status_composition (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     designation VARCHAR(20) NOT NULL
 );
 

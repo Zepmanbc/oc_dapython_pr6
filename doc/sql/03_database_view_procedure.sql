@@ -6,7 +6,7 @@ USE oc_dapython_pr6;
 
 -- Affiche le stock actuel de la boutique
 CREATE VIEW v_1_stock_boutique_nord AS
-SELECT nom as Ingrédient, CONCAT(quantite, " ", unite) AS Quantité
+SELECT nom as Ingrédient, CONCAT(quantite, ' ', unite) AS Quantité
 FROM stock
 JOIN ingredient ON stock.ingredient_id = ingredient.id
 WHERE boutique_id = 1
@@ -14,7 +14,7 @@ ORDER BY nom;
 
 -- Affiche le stock actuel de la boutique
 CREATE VIEW v_2_stock_boutique_sud AS
-SELECT nom as Ingrédient, CONCAT(quantite, " ", unite) AS Quantité
+SELECT nom as Ingrédient, CONCAT(quantite, ' ', unite) AS Quantité
 FROM stock
 JOIN ingredient ON stock.ingredient_id = ingredient.id
 WHERE boutique_id = 2
@@ -22,7 +22,7 @@ ORDER BY nom;
 
 -- Affiche le stock actuel de la boutique
 CREATE VIEW v_3_stock_boutique_est AS
-SELECT nom as Ingrédient, CONCAT(quantite, " ", unite) AS Quantité
+SELECT nom as Ingrédient, CONCAT(quantite, ' ', unite) AS Quantité
 FROM stock
 JOIN ingredient ON stock.ingredient_id = ingredient.id
 WHERE boutique_id = 3
@@ -30,7 +30,7 @@ ORDER BY nom;
 
 -- Affiche le stock actuel de la boutique
 CREATE VIEW v_4_stock_boutique_ouest AS
-SELECT nom as Ingrédient, CONCAT(quantite, " ", unite) AS Quantité
+SELECT nom as Ingrédient, CONCAT(quantite, ' ', unite) AS Quantité
 FROM stock
 JOIN ingredient ON stock.ingredient_id = ingredient.id
 WHERE boutique_id = 4
@@ -40,10 +40,10 @@ ORDER BY nom;
 CREATE VIEW v_1_commandes_boutique_nord AS
 SELECT 
 commande.id AS numero,
-CONCAT(users.prenom, " ", users.nom) AS Client,
+CONCAT(users.prenom, ' ', users.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
-IF(commande.paiement, "OK", "...") AS Paiement
+IF(commande.paiement, 'OK', '...') AS Paiement
 FROM commande 
 JOIN users ON users.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
@@ -54,10 +54,10 @@ ORDER BY commande.id;
 CREATE VIEW v_2_commandes_boutique_sud AS
 SELECT 
 commande.id AS numero,
-CONCAT(users.prenom, " ", users.nom) AS Client,
+CONCAT(users.prenom, ' ', users.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
-IF(commande.paiement, "OK", "...") AS Paiement
+IF(commande.paiement, 'OK', '...') AS Paiement
 FROM commande 
 JOIN users ON users.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
@@ -68,10 +68,10 @@ ORDER BY commande.id;
 CREATE VIEW v_3_commandes_boutique_est AS
 SELECT 
 commande.id AS numero,
-CONCAT(users.prenom, " ", users.nom) AS Client,
+CONCAT(users.prenom, ' ', users.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
-IF(commande.paiement, "OK", "...") AS Paiement
+IF(commande.paiement, 'OK', '...') AS Paiement
 FROM commande 
 JOIN users ON users.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
@@ -82,10 +82,10 @@ ORDER BY commande.id;
 CREATE VIEW v_4_commandes_boutique_ouest AS
 SELECT 
 commande.id AS numero,
-CONCAT(users.prenom, " ", users.nom) AS Client,
+CONCAT(users.prenom, ' ', users.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
-IF(commande.paiement, "OK", "...") AS Paiement
+IF(commande.paiement, 'OK', '...') AS Paiement
 FROM commande 
 JOIN users ON users.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
@@ -102,7 +102,7 @@ ORDER BY commande.id;
 DELIMITER |
 CREATE PROCEDURE voir_recette (IN var_recette_id INT)
 BEGIN
-    SELECT CONCAT(quantite, " ", unite, " de ", nom) AS "Liste des ingrédients de la recette" 
+    SELECT CONCAT(quantite, ' ', unite, " de ", nom) AS "Liste des ingrédients de la recette" 
     FROM recette_composition 
     JOIN ingredient ON ingredient.id = recette_composition.ingredient_id 
     WHERE recette_id = var_recette_id
@@ -121,7 +121,7 @@ CREATE PROCEDURE entete_commande(IN `var_recette_id` INT)
 BEGIN
 	SELECT 
 		LEFT(commande.date, 10) AS Date, 
-		CONCAT(users.prenom, " ", users.nom) AS Client, 
+		CONCAT(users.prenom, ' ', users.nom) AS Client, 
 		status_commande.designation AS Status, 
 		(SELECT SUM(recette.prix)
 			FROM recette
