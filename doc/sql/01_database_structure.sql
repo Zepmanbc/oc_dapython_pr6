@@ -20,25 +20,24 @@ CREATE TABLE boutique (
     id INT PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
     adresse VARCHAR(255) NOT NULL,
-    horaires TINYTEXT NOT NULL
+    horaires TEXT NOT NULL
 );
 
 CREATE TABLE commande (
     id INT PRIMARY KEY,
-    client_id INT UNSIGNED NOT NULL,
-    boutique_id INT UNSIGNED NOT NULL,
-    status_id INT UNSIGNED NOT NULL DEFAULT '1',
-    paiement_type_id INT UNSIGNED NOT NULL,
+    client_id INT NOT NULL,
+    boutique_id INT NOT NULL,
+    status_id INT NOT NULL DEFAULT '1',
+    paiement_type_id INT NOT NULL,
     date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    paiement BOOLEAN DEFAULT FALSE,
-    INDEX ind_boutique_status (boutique_id, status_id)
+    paiement BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE commande_composition (
     id INT PRIMARY KEY,
-    commande_id INT UNSIGNED NOT NULL,
-    recette_id INT UNSIGNED NOT NULL,
-    status_id INT UNSIGNED NOT NULL DEFAULT '1'
+    commande_id INT NOT NULL,
+    recette_id INT NOT NULL,
+    status_id INT NOT NULL DEFAULT '1'
 );
 
 CREATE TABLE ingredient (
@@ -57,13 +56,13 @@ CREATE TABLE recette (
     nom VARCHAR(255) NOT NULL,
     designation_commerciale text,
     designation_technique text,
-    prix float(4,2)
+    prix float(6)
 );
 
 CREATE TABLE recette_composition (
     recette_id INT,
     ingredient_id INT,
-    quantite int(4) NOT NULL,
+    quantite int NOT NULL,
     PRIMARY KEY (recette_id, ingredient_id)
 );
 
@@ -85,7 +84,7 @@ CREATE TABLE status_composition (
 CREATE TABLE stock (
   ingredient_id INT,
   boutique_id INT,
-  quantite int(12) NOT NULL,
+  quantite int NOT NULL,
   PRIMARY KEY (ingredient_id, boutique_id)
 );
 
