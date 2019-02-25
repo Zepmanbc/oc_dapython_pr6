@@ -186,8 +186,8 @@ JOIN ingredient ON ingredient.id = stock.ingredient_id
 JOIN recette ON recette.id = recette_composition.recette_id
 GROUP BY boutique.id, recette_id;
 
--- vue globale du chiffre d'affaire de la journée (en temps réél)
-CREATE VIEW v_0_chiffre_d_affaire_journée AS
+-- vue globale du chiffre d'affaire de la journee (en temps réél)
+CREATE VIEW v_0_chiffre_d_affaire_journee AS
 SELECT 
 	boutique.id AS boutique, 
 	SUM(recette.prix) as total
