@@ -105,7 +105,9 @@ BEGIN
     SELECT CONCAT(quantite, " ", unite, " de ", nom) AS "Liste des ingrédients de la recette" 
     FROM recette_composition 
     JOIN ingredient ON ingredient.id = recette_composition.ingredient_id 
-    WHERE recette_id = var_recette_id;
+    WHERE recette_id = var_recette_id
+	UNION
+	SELECT designation_technique FROM recette WHERE recette.id = var_recette_id;
 END|
 DELIMITER ;
 
