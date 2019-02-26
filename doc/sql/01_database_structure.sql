@@ -191,7 +191,7 @@ UPDATE commande SET status_id = (
 
 
 -- procedure qui affiche les ingrédients à retirer dans une commande_composition
--- A essayer d'utiliser dans la procédure suivante, mais le call ne fonctionne pas...
+-- juste pour le debug
 CREATE PROCEDURE affiche_commande_composition (IN var_commande_id INT)
     SELECT 
         recette_composition.ingredient_id, 
@@ -204,7 +204,7 @@ CREATE PROCEDURE affiche_commande_composition (IN var_commande_id INT)
         WHERE commande_composition.id = var_commande_id);
 
 
--- procedure qui retire les ingrédients d'une recette dans le stock (infos récupéréer sur la commande_composition)
+-- procedure qui retire les ingrédients d'une recette dans le stock (infos récupérées sur la commande_composition)
 DELIMITER |
 CREATE PROCEDURE retire_ligne_commande_stock (IN variable INT)
 BEGIN
@@ -246,7 +246,7 @@ DELIMITER ;
 -- CREATE TRIGGER `after_update_commande_composition` AFTER UPDATE ON `commande_composition`FOR EACH ROW
 -- CALL update_etat_commande(new.commande_id);
 
--- cas de mise à jour du stock lorsque la pizza passe en preparation
+-- cas de mise à jour du stock lorsque la pizza passe en préparation
 DELIMITER |
 CREATE TRIGGER `after_update_commande_composition` AFTER UPDATE ON `commande_composition`
 FOR EACH ROW 
