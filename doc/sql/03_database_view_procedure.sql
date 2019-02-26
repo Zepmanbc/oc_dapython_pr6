@@ -43,7 +43,7 @@ commande.id AS numero,
 CONCAT(users.prenom, ' ', users.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
-IF(commande.paiement, 'OK', '...') AS Paiement
+CASE WHEN commande.paiement THEN 'OK' ELSE '...' END
 FROM commande 
 JOIN users ON users.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
@@ -57,7 +57,7 @@ commande.id AS numero,
 CONCAT(users.prenom, ' ', users.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
-IF(commande.paiement, 'OK', '...') AS Paiement
+CASE WHEN commande.paiement THEN 'OK' ELSE '...' END
 FROM commande 
 JOIN users ON users.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
@@ -71,7 +71,7 @@ commande.id AS numero,
 CONCAT(users.prenom, ' ', users.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
-IF(commande.paiement, 'OK', '...') AS Paiement
+CASE WHEN commande.paiement THEN 'OK' ELSE '...' END
 FROM commande 
 JOIN users ON users.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
@@ -85,7 +85,7 @@ commande.id AS numero,
 CONCAT(users.prenom, ' ', users.nom) AS Client,
 status_commande.designation AS Status_commande,
 paiement_type.designation AS "Mode de paiement",
-IF(commande.paiement, 'OK', '...') AS Paiement
+CASE WHEN commande.paiement THEN 'OK' ELSE '...' END
 FROM commande 
 JOIN users ON users.id = commande.client_id
 JOIN status_commande ON status_commande.id = commande.status_id
