@@ -4,7 +4,7 @@ CREATE DATABASE oc_dapython_pr6 CHARACTER SET 'utf8';
 
 USE oc_dapython_pr6;
 
-CREATE TABLE user (
+CREATE TABLE users (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     boutique_id INT UNSIGNED DEFAULT NULL,
     role_id INT UNSIGNED NOT NULL,
@@ -103,14 +103,14 @@ CREATE TABLE stock (
 -- CONTRAINTES;
 --
 
-ALTER TABLE user 
-ADD CONSTRAINT fk_user_boutique_id FOREIGN KEY (boutique_id) REFERENCES boutique(id) ON DELETE SET NULL;
+ALTER TABLE users 
+ADD CONSTRAINT fk_users_boutique_id FOREIGN KEY (boutique_id) REFERENCES boutique(id) ON DELETE SET NULL;
 
-ALTER TABLE user 
-ADD CONSTRAINT fk_user_role_id FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE RESTRICT;
+ALTER TABLE users 
+ADD CONSTRAINT fk_users_role_id FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE RESTRICT;
 
 ALTER TABLE commande 
-ADD CONSTRAINT fk_commande_client_id FOREIGN KEY (client_id) REFERENCES user(id) ON DELETE RESTRICT;
+ADD CONSTRAINT fk_commande_client_id FOREIGN KEY (client_id) REFERENCES users(id) ON DELETE RESTRICT;
 
 ALTER TABLE commande 
 ADD CONSTRAINT fk_commande_boutique_id FOREIGN KEY (boutique_id) REFERENCES boutique(id) ON DELETE RESTRICT;
