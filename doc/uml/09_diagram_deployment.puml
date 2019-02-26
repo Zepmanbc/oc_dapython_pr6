@@ -1,37 +1,33 @@
 @startuml 09_diagram_deployment
 title Diagramme de déploiement
 
-
+cloud {
+    [Banque API]
+}
 node "appareil utilisateur"{
     [navigateur web]
 }
 
 cloud {
     rectangle "Amazon Web Service"{
+        database "Postgres"{
+            ["OC Pizza Database"]
+        }
         node gunicorn {
             ["App Django"]
         }
         node Nginx{
             ["Données statiques"]
         }
-        database "Postgres"{
-        ["OC Pizza Database"]
     }
-    
-}
-}
-cloud {
-    [Banque API]
 }
 
-[navigateur web] -> ["App Django"] : "           HTTPS           "
 
-[navigateur web] --> [Banque API] : "HTTPS"
+[Banque API] - ["Données statiques"] : "HTTPS    "
+[Banque API] -- [navigateur web] : "HTTPS"
+["Données statiques"] - ["App Django"] : "WSGI     "
+["App Django"] - ["OC Pizza Database"] : "   TCP/IP"
 
-["App Django"] -- [Banque API] : "TCP/IP"
-
-["App Django"] -up- ["OC Pizza Database"] : "TCP/IP"
-
-["App Django"] - ["Données statiques"]: "       TCP/IP"
+["Données statiques"] -- [navigateur web] : HTTPS
 
 @enduml

@@ -1,5 +1,5 @@
 @startuml 06_Class_diagram
-title Diagramme de classe
+title Diagramme de classes
 
 class Commande{
     creer()

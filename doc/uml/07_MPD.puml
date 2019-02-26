@@ -102,11 +102,11 @@ commande_composition . (commande, recette)
 recette "0..*" *-- "0..*" ingredient
 (recette, ingredient) . recette_composition
 
-User "0..1" - "0..*" commande
-User "0..*" - "0..1" boutique
-commande "0..*" -- "1" boutique
+User "1" - "0..*" commande
+User "0..1" - "0..1" boutique
+commande "1" -- "0..*" boutique
 
-boutique "1" - "1" ingredient
+boutique "0..*" - "0..*" ingredient
 (ingredient, boutique) . stock
 
 status_commande "1" -- "*" commande
