@@ -1,3 +1,5 @@
+*original sur [https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/demarche.md](https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/demarche.md)*
+
 # Contexte
 
 L'analyse fonctionnelle de la solution du site de gestion de pizzeria étant faite, il est maintenant demandé de décrire le domaine fonctionnel, les composants, le déploiement ainsi que la structure de la base de donnée.
@@ -29,13 +31,13 @@ remplissage de la base
 
 [10_stock.sql](https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/sql/populate/10_stock.sql)
 
-[30_clients.sql](https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/sql/populate/30_clients.sql) (https://mockaroo.com/schemas/154661)
+[30_clients.sql](https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/sql/populate/30_clients.sql) ([https://mockaroo.com/schemas/154661](https://mockaroo.com/schemas/154661))
 
 [commandes.sql](https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/sql/populate/commandes.sql) ([commandes.py](https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/sql/populate/commandes.py))
 
 Dump de la base : [oc_dapython_pr6.sql](https://raw.githubusercontent.com/Zepmanbc/oc_dapython_pr6/master/doc/oc_dapython_pr6.sql)
 
-    mysqldump --routines --events oc_dapython_pr6 > oc_dapython_pr6.sql"
+    mysqldump --routines --events oc_dapython_pr6 > oc_dapython_pr6.sql
 
 # Mise en situation
 
