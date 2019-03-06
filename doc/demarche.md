@@ -25,7 +25,7 @@ Création de la base:
 
 [02_database_basics.sql](https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/sql/02_database_basics.sql)
 
-[03_database_view_procedure.sql](https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/sql/03_database_view_prcedure.sql)
+[03_database_view_procedure.sql](https://github.com/Zepmanbc/oc_dapython_pr6/blob/master/doc/sql/03_database_view_procedure.sql)
 
 remplissage de la base
 
